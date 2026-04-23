@@ -8,10 +8,17 @@ interface ModalProps {
   title: string;
   children: ReactNode;
   footer?: ReactNode;
+  size?: 'sm' | 'md' | 'lg';
 }
 
-const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) => {
+const Modal = ({ isOpen, onClose, title, children, footer, size = 'md' }: ModalProps) => {
   if (!isOpen) return null;
+
+  const sizeClasses = {
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+  };
 
   return (
     <div 
@@ -19,7 +26,7 @@ const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) => {
       onClick={onClose}
     >
       <div 
-        className="bg-zinc-900 w-full max-w-lg rounded-3xl p-10 relative"
+        className={`bg-zinc-900 w-full ${sizeClasses[size]} rounded-3xl p-10 relative`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -31,9 +38,9 @@ const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) => {
 
         <h2 className="text-3xl font-bold mb-8">{title}</h2>
 
-        {children}
+        <div className="mb-8">{children}</div>
 
-        {footer && <div className="mt-8">{footer}</div>}
+        {footer && <div className="flex gap-4">{footer}</div>}
       </div>
     </div>
   );

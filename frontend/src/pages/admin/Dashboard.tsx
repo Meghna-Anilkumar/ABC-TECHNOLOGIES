@@ -1,4 +1,3 @@
-// frontend/src/pages/admin/Dashboard.tsx
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Edit2, Trash2, LogOut } from 'lucide-react';
@@ -11,7 +10,9 @@ import Toast from '../../components/common/Toast';
 const AdminDashboard = () => {
   const [services, setServices] = useState<IService[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [serviceToDelete, setServiceToDelete] = useState<string | null>(null);
   const [editingService, setEditingService] = useState<IService | null>(null);
   const [formData, setFormData] = useState({
     title: '',
@@ -49,10 +50,11 @@ const AdminDashboard = () => {
     setTimeout(() => setToast(null), 3000);
   };
 
+  // Form Modal (Add/Edit)
   const openAddModal = () => {
     setEditingService(null);
     setFormData({ title: '', description: '', icon: 'cube', isActive: true });
-    setShowModal(true);
+    setShowFormModal(true);
   };
 
   const openEditModal = (service: IService) => {
@@ -63,12 +65,37 @@ const AdminDashboard = () => {
       icon: service.icon || 'cube',
       isActive: service.isActive,
     });
-    setShowModal(true);
+    setShowFormModal(true);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
+  const closeFormModal = () => {
+    setShowFormModal(false);
     setEditingService(null);
+  };
+
+  // Confirmation Modal for Delete
+  const openDeleteConfirm = (id: string) => {
+    setServiceToDelete(id);
+    setShowConfirmModal(true);
+  };
+
+  const closeConfirmModal = () => {
+    setShowConfirmModal(false);
+    setServiceToDelete(null);
+  };
+
+  const confirmDelete = async () => {
+    if (!serviceToDelete) return;
+
+    try {
+      await serviceService.deleteService(serviceToDelete);
+      showToast('Service deleted successfully', 'success');
+      fetchServices();
+    } catch {
+      showToast('Failed to delete service', 'error');
+    } finally {
+      closeConfirmModal();
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -87,24 +114,12 @@ const AdminDashboard = () => {
         await serviceService.createService(formData);
         showToast('Service added successfully!', 'success');
       }
-      closeModal();
+      closeFormModal();
       fetchServices();
     } catch {
       showToast('Failed to save service', 'error');
     } finally {
       setSaving(false);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this service?')) return;
-
-    try {
-      await serviceService.deleteService(id);
-      showToast('Service deleted successfully', 'success');
-      fetchServices();
-    } catch {
-      showToast('Failed to delete service', 'error');
     }
   };
 
@@ -167,7 +182,7 @@ const AdminDashboard = () => {
                       <Edit2 className="w-5 h-5" />
                     </button>
                     <button
-                      onClick={() => handleDelete(service._id)}
+                      onClick={() => openDeleteConfirm(service._id)}
                       className="p-3 hover:bg-red-500/10 text-red-400 rounded-xl transition-colors"
                     >
                       <Trash2 className="w-5 h-5" />
@@ -180,10 +195,10 @@ const AdminDashboard = () => {
         )}
       </main>
 
-      {/* Reusable Modal */}
+      {/* Form Modal (Add / Edit) */}
       <Modal
-        isOpen={showModal}
-        onClose={closeModal}
+        isOpen={showFormModal}
+        onClose={closeFormModal}
         title={editingService ? 'Edit Service' : 'Add New Service'}
       >
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -223,7 +238,7 @@ const AdminDashboard = () => {
           <div className="flex gap-4 pt-6">
             <button
               type="button"
-              onClick={closeModal}
+              onClick={closeFormModal}
               className="flex-1 py-4 border border-white/30 hover:bg-white/5 rounded-2xl transition-colors"
             >
               Cancel
@@ -237,6 +252,33 @@ const AdminDashboard = () => {
             </button>
           </div>
         </form>
+      </Modal>
+
+      {/* Confirmation Modal for Delete */}
+      <Modal
+        isOpen={showConfirmModal}
+        onClose={closeConfirmModal}
+        title="Delete Service"
+        size="sm"
+      >
+        <p className="text-gray-300 text-lg mb-8">
+          Are you sure you want to delete this service? This action cannot be undone.
+        </p>
+
+        <div className="flex gap-4">
+          <button
+            onClick={closeConfirmModal}
+            className="flex-1 py-4 border border-white/30 hover:bg-white/5 rounded-2xl transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={confirmDelete}
+            className="flex-1 py-4 bg-red-600 hover:bg-red-500 rounded-2xl font-semibold transition-colors"
+          >
+            Yes, Delete
+          </button>
+        </div>
       </Modal>
 
       {/* Toast Notification */}

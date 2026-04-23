@@ -16,6 +16,7 @@ const Home = () => {
         setServices(data);
       } catch (error) {
         console.error('Failed to fetch services');
+        // Fallback services from Figma
         setServices([
           { _id: '1', title: "Global Trading & Export", description: "Sourcing, compliance, documentation, and cross-border logistics with precision.", icon: "cube", order: 1, isActive: true },
           { _id: '2', title: "Technical Consultation & Engineering Advisory", description: "Consultation led by engineers with real-world execution experience.", icon: "cube", order: 2, isActive: true },
@@ -30,52 +31,46 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
-
-      {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-lg border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
-              <Globe className="w-6 h-6" />
+    <div className="min-h-screen bg-[#050505] text-white overflow-hidden">
+      {/* Navbar - Exact Figma */}
+      <nav className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+              <Globe className="w-6 h-6 text-black" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold tracking-tighter">ABC</h1>
-              <p className="text-xs text-gray-400 -mt-1">Technologies</p>
+              <h1 className="text-2xl font-bold tracking-tighter">ABC</h1>
+              <p className="text-[10px] text-gray-400 -mt-1">Technologies</p>
             </div>
           </div>
 
           <div className="hidden md:flex items-center gap-10 text-sm font-medium">
-            <a href="#services" className="hover:text-green-400 transition-colors">Services</a>
-            <a href="#sectors" className="hover:text-green-400 transition-colors">Sectors</a>
-            <a href="#philosophy" className="hover:text-green-400 transition-colors">Philosophy</a>
-            <a href="#global" className="hover:text-green-400 transition-colors">Global</a>
+            <a href="#services" className="hover:text-green-400 transition-colors">SERVICES</a>
+            <a href="#sectors" className="hover:text-green-400 transition-colors">SECTORS</a>
+            <a href="#philosophy" className="hover:text-green-400 transition-colors">PHILOSOPHY</a>
+            <a href="#global" className="hover:text-green-400 transition-colors">GLOBAL</a>
           </div>
 
-          <button
+          <button 
             onClick={() => window.location.href = '/admin/login'}
-            className="px-6 py-2.5 bg-white/10 hover:bg-white/20 border border-white/30 rounded-full text-sm font-medium transition-all"
+            className="px-8 py-3 border border-white/40 hover:border-white rounded-full text-sm font-medium transition-all"
           >
             Admin Portal
           </button>
         </div>
       </nav>
 
-      {/* HERO SECTION - NO overflow-hidden */}
+      {/* HERO SECTION - Exact Figma Match */}
       <section className="relative min-h-screen flex items-center pt-20">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1586528116311-ad8dd3c83137?q=80&w=2070')] bg-cover bg-center">
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/95 to-black/70" />
+        <div className="absolute inset-0 bg-[url('/images/af03747c0c13e0e2ab779d52ace923e92659e791.png')] bg-cover bg-center bg-no-repeat">
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/95 to-black/80" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(0,255,100,0.18),transparent_70%)]" />
         </div>
 
-        <div className="relative w-full max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center py-20">
+        <div className="relative max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-center min-h-screen">
           <div className="space-y-8 z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-green-500/30">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-sm font-medium tracking-widest text-green-400">GLOBAL OPERATIONS</span>
-            </div>
-
-            <h1 className="text-5xl md:text-7xl font-bold leading-none tracking-tighter">
+            <h1 className="text-6xl md:text-7xl font-bold leading-none tracking-tighter">
               GLOBAL TRADING &amp;<br />
               <span className="text-green-500">INTELLIGENT</span><br />
               INFRASTRUCTURE SOLUTIONS
@@ -86,48 +81,41 @@ const Home = () => {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <motion.button
+              <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-10 py-4 bg-green-600 hover:bg-green-500 rounded-2xl font-semibold text-lg flex items-center gap-3 transition-all shadow-lg shadow-green-500/30"
+                className="px-10 py-4 bg-green-600 hover:bg-green-500 rounded-full font-semibold text-lg flex items-center gap-3 transition-all"
               >
                 DISCUSS A PROJECT
-                <ArrowRight className="w-5 h-5" />
               </motion.button>
 
-              <motion.button
+              <motion.button 
                 whileHover={{ scale: 1.05 }}
-                className="px-10 py-4 border border-white/40 hover:border-white rounded-2xl font-semibold text-lg transition-all"
+                className="px-10 py-4 border border-white/50 hover:border-white rounded-full font-semibold text-lg transition-all"
               >
                 EXPLORE OUR CAPABILITIES →
               </motion.button>
             </div>
           </div>
 
-          <div className="relative hidden md:block z-10">
-            <img
-              src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070"
-              alt="Engineer with tablet"
-              className="relative w-full rounded-3xl shadow-2xl border border-white/10"
-            />
-            <div className="absolute -inset-12 bg-gradient-to-br from-green-500/20 to-transparent rounded-[4rem] -z-10 blur-3xl" />
-          </div>
+         
         </div>
       </section>
 
-      {/* SERVICES SECTION */}
+      {/* WHAT WE DO / SERVICES */}
       <section id="services" className="py-24 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold tracking-tight mb-3">WHAT WE DO</h2>
             <p className="text-3xl text-green-400 font-light">YOUR SINGLE-WINDOW PARTNER FOR GLOBAL SOLUTIONS</p>
+            <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
+              ABC Technologies LLC operates as a single-window partner for global clients seeking reliable sourcing, technical expertise, and deployment of advanced engineering and technology solutions.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {loading ? (
-              Array(4).fill(0).map((_, i) => (
-                <div key={i} className="h-96 bg-zinc-900 rounded-3xl animate-pulse" />
-              ))
+              Array(4).fill(0).map((_, i) => <div key={i} className="h-96 bg-zinc-900 rounded-3xl animate-pulse" />)
             ) : (
               services.map((service, index) => (
                 <motion.div
@@ -153,9 +141,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTORS SECTION */}
+      {/* SECTORS WE SERVE */}
       <section id="sectors" className="py-24 bg-black/40 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold tracking-tight mb-4">SECTORS WE SERVE</h2>
             <p className="text-xl text-gray-400">Our expertise spans across critical sectors</p>
@@ -188,7 +176,7 @@ const Home = () => {
 
       {/* ENGINEERING-FIRST PHILOSOPHY */}
       <section id="philosophy" className="py-24 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-8">
           <div className="grid md:grid-cols-12 gap-16 items-center">
             <div className="md:col-span-5">
               <h2 className="text-5xl font-bold tracking-tight mb-6">ENGINEERING-FIRST PHILOSOPHY</h2>
@@ -203,14 +191,7 @@ const Home = () => {
                 { title: "Retrofit-Focused", desc: "Vendor-Agnostic Approach Integrating With Existing Infrastructure." },
                 { title: "Cross-Border Execution", desc: "Proven Capabilities Across International Markets." },
               ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex gap-4"
-                >
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex gap-4">
                   <div className="text-green-500 text-4xl">✓</div>
                   <div>
                     <h4 className="font-semibold text-xl mb-1">{item.title}</h4>
@@ -225,7 +206,7 @@ const Home = () => {
 
       {/* GLOBAL OUTLOOK */}
       <section id="global" className="py-24 bg-black/40 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 text-center">
+        <div className="max-w-7xl mx-auto px-8 text-center">
           <h2 className="text-5xl font-bold tracking-tight mb-4">WORLDWIDE OPERATIONS</h2>
           <p className="text-xl text-gray-400 mb-16">Operating from Dubai with strong operational ties across India, Africa, and other international markets.</p>
 
@@ -242,7 +223,7 @@ const Home = () => {
 
       {/* FINAL CTA */}
       <section className="py-24 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 text-center">
+        <div className="max-w-7xl mx-auto px-8 text-center">
           <h2 className="text-6xl font-bold tracking-tighter mb-6">READY TO MOVE YOUR PROJECT FORWARD?</h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
             Consultative engineering expertise—from strategy and design through implementation to measurable operational performance.
@@ -260,11 +241,10 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="bg-black py-16 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 text-center text-gray-400 text-sm">
+        <div className="max-w-7xl mx-auto px-8 text-center text-gray-400 text-sm">
           © 2026 ABC Technologies LLC • UAE • All Rights Reserved
         </div>
       </footer>
-
     </div>
   );
 };
