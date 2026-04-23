@@ -1,4 +1,3 @@
-// frontend/src/context/AuthContext.tsx
 import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import type { ReactNode } from 'react';
 
@@ -25,7 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load auth state from localStorage only once
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const storedUserStr = localStorage.getItem('user');

@@ -3,7 +3,7 @@ import { ArrowUpRight, Phone, Mail, MessageCircle, MapPin } from 'lucide-react';
 import { serviceService } from '../services/serviceService';
 import type { IService } from '../types';
 
-// Inject fonts
+
 const fontStyle = document.createElement('style');
 fontStyle.textContent = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap');
@@ -21,7 +21,6 @@ if (!document.head.querySelector('[data-abc-fonts]')) {
   document.head.appendChild(fontStyle);
 }
 
-// ─── Hex icon SVG ─────────────────────────────────────────────────────────────
 const HexIcon = () => (
   <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
     <polygon points="48,4 88,26 88,70 48,92 8,70 8,26" fill="#1a3d1a" stroke="#2d6b2d" strokeWidth="1.5"/>
@@ -34,7 +33,7 @@ const HexIcon = () => (
   </svg>
 );
 
-// ─── Green check bullet ───────────────────────────────────────────────────────
+
 const GreenBullet = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
     <polygon points="9,1 16,5 16,13 9,17 2,13 2,5" fill="#2d6b2d" stroke="#4CAF50" strokeWidth="1"/>

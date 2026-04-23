@@ -1,4 +1,3 @@
-// frontend/src/components/common/Modal.tsx
 import type { ReactNode } from 'react';
 import { X } from 'lucide-react';
 

@@ -50,7 +50,7 @@ const AdminDashboard = () => {
     setTimeout(() => setToast(null), 3000);
   };
 
-  // Form Modal (Add/Edit)
+
   const openAddModal = () => {
     setEditingService(null);
     setFormData({ title: '', description: '', icon: 'cube', isActive: true });
@@ -73,7 +73,7 @@ const AdminDashboard = () => {
     setEditingService(null);
   };
 
-  // Confirmation Modal for Delete
+
   const openDeleteConfirm = (id: string) => {
     setServiceToDelete(id);
     setShowConfirmModal(true);
