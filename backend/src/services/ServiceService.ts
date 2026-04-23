@@ -1,4 +1,3 @@
-// backend/src/services/ServiceService.ts
 import { injectable, inject } from 'tsyringe';
 import { IServiceRepository } from '../interfaces/repositories/IServiceRepository';
 import { MESSAGES } from '../constants/messages';

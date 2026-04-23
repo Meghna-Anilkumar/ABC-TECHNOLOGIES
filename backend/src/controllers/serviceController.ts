@@ -1,4 +1,3 @@
-// backend/src/controllers/serviceController.ts
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { ServiceService } from '../services/ServiceService';
@@ -42,7 +41,7 @@ export const createService = async (req: Request, res: Response) => {
 
 export const updateService = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;                    // No 'as string' needed
+    const id = req.params.id;    
     if (Array.isArray(id)) {
       return res.status(400).json({ message: 'Invalid ID' });
     }
@@ -65,7 +64,7 @@ export const updateService = async (req: Request, res: Response) => {
 
 export const deleteService = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;                    // Safe handling
+    const id = req.params.id;                  
     if (Array.isArray(id)) {
       return res.status(400).json({ message: 'Invalid ID' });
     }

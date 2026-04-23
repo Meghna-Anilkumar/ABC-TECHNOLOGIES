@@ -1,4 +1,3 @@
-// backend/src/controllers/authController.ts
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { UserService } from '../services/UserService';
@@ -22,7 +21,7 @@ export const login = async (req: Request, res: Response) => {
     // Set HttpOnly Cookie
     res.cookie('token', result.token, {
       httpOnly: true,
-      secure: false,                    // Set true in production
+      secure: false,                    
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
