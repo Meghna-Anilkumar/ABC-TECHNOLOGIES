@@ -1,51 +1,86 @@
+// backend/src/controllers/serviceController.ts
 import { Request, Response } from 'express';
-import ServiceRepository from '../repositories/ServiceRepository';
+import { container } from 'tsyringe';
+import { ServiceService } from '../services/ServiceService';
+import { MESSAGES } from '../constants/messages';
+
+const serviceService = container.resolve(ServiceService);
 
 export const getServices = async (req: Request, res: Response) => {
   try {
-    const services = await ServiceRepository.findActiveServices();
+    const services = await serviceService.getActiveServices();
     res.json(services);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching services' });
+    res.status(500).json({ message: MESSAGES.COMMON.SERVER_ERROR });
   }
 };
 
 export const getAllServices = async (req: Request, res: Response) => {
   try {
-    const services = await ServiceRepository.findAll();
+    const services = await serviceService.getAllServices();
     res.json(services);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching services' });
+    res.status(500).json({ message: MESSAGES.COMMON.SERVER_ERROR });
   }
 };
 
 export const createService = async (req: Request, res: Response) => {
   try {
-    const service = await ServiceRepository.create(req.body);
-    res.status(201).json(service);
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating service' });
+    const service = await serviceService.createService(req.body);
+    res.status(201).json({
+      success: true,
+      message: MESSAGES.SERVICE.CREATED,
+      data: service
+    });
+  } catch (error: any) {
+    res.status(500).json({ 
+      success: false,
+      message: error.message || MESSAGES.COMMON.SERVER_ERROR 
+    });
   }
 };
 
 export const updateService = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const service = await ServiceRepository.update(id, req.body);
-    if (!service) return res.status(404).json({ message: 'Service not found' });
-    res.json(service);
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating service' });
+    const id = req.params.id;                    // No 'as string' needed
+    if (Array.isArray(id)) {
+      return res.status(400).json({ message: 'Invalid ID' });
+    }
+
+    const service = await serviceService.updateService(id, req.body);
+    
+    res.json({
+      success: true,
+      message: MESSAGES.SERVICE.UPDATED,
+      data: service
+    });
+  } catch (error: any) {
+    const status = error.message?.includes('not found') ? 404 : 500;
+    res.status(status).json({ 
+      success: false,
+      message: error.message || MESSAGES.COMMON.SERVER_ERROR 
+    });
   }
 };
 
 export const deleteService = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const service = await ServiceRepository.delete(id);
-    if (!service) return res.status(404).json({ message: 'Service not found' });
-    res.json({ message: 'Service deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting service' });
+    const id = req.params.id;                    // Safe handling
+    if (Array.isArray(id)) {
+      return res.status(400).json({ message: 'Invalid ID' });
+    }
+
+    await serviceService.deleteService(id);
+    
+    res.json({
+      success: true,
+      message: MESSAGES.SERVICE.DELETED
+    });
+  } catch (error: any) {
+    const status = error.message?.includes('not found') ? 404 : 500;
+    res.status(status).json({ 
+      success: false,
+      message: error.message || MESSAGES.COMMON.SERVER_ERROR 
+    });
   }
 };

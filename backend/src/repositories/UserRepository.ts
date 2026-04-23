@@ -1,23 +1,17 @@
-import { BaseRepository } from './BaseRepository';
+import { IUserRepository } from '../interfaces/repositories/IUserRepository';
 import User, { IUser } from '../models/User';
-import { Types } from 'mongoose';
+import { BaseRepository } from './BaseRepository';
 
-class UserRepository extends BaseRepository<IUser> {
+export class UserRepository extends BaseRepository<IUser> implements IUserRepository {
   constructor() {
     super(User);
   }
 
   async findByEmail(email: string): Promise<IUser | null> {
-    return User.findOne({ email: email.toLowerCase() });
+    return User.findOne({ email: email.toLowerCase().trim() });
   }
 
   async findAdmin(): Promise<IUser | null> {
     return User.findOne({ role: 'admin' });
   }
-
-  async findById(id: string): Promise<IUser | null> {
-    return super.findById(id);
-  }
 }
-
-export default new UserRepository();
