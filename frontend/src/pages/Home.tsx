@@ -3,7 +3,7 @@ import { ArrowUpRight, Phone, Mail, MessageCircle, MapPin } from 'lucide-react';
 import { serviceService } from '../services/serviceService';
 import type { IService } from '../types';
 
-
+// Inject fonts
 const fontStyle = document.createElement('style');
 fontStyle.textContent = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap');
@@ -21,19 +21,9 @@ if (!document.head.querySelector('[data-abc-fonts]')) {
   document.head.appendChild(fontStyle);
 }
 
-const HexIcon = () => (
-  <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="48,4 88,26 88,70 48,92 8,70 8,26" fill="#1a3d1a" stroke="#2d6b2d" strokeWidth="1.5"/>
-    <polygon points="48,12 82,30 82,66 48,84 14,66 14,30" fill="#1e4a1e"/>
-    <polygon points="48,20 74,34 74,62 48,76 22,62 22,34" fill="#236b23" opacity="0.7"/>
-    <polygon points="48,30 62,48 48,66 34,48" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
-    <line x1="48" y1="30" x2="48" y2="66" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-    <line x1="34" y1="48" x2="62" y2="48" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-    <polygon points="48,4 88,26 48,26 8,26" fill="#2d8b2d" opacity="0.4"/>
-  </svg>
-);
 
 
+// ─── Green check bullet ───────────────────────────────────────────────────────
 const GreenBullet = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
     <polygon points="9,1 16,5 16,13 9,17 2,13 2,5" fill="#2d6b2d" stroke="#4CAF50" strokeWidth="1"/>
@@ -195,23 +185,84 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
             {loading ? (
               Array(4).fill(0).map((_, i) => (
-                <div key={i} style={{ height: 380, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, animation: 'pulse 1.5s ease-in-out infinite' }} />
+                <div key={i} style={{ height: 420, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, animation: 'pulse 1.5s ease-in-out infinite' }} />
               ))
             ) : (
               services.map((s, i) => (
-                <div key={s._id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: '36px 28px 32px', display: 'flex', flexDirection: 'column', transition: 'border-color 0.3s, transform 0.3s', cursor: 'pointer' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(76,175,80,0.5)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-6px)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}>
-                  <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: 24 }}>
-                    <HexIcon />
+                <div key={s._id} style={{
+                  position: 'relative',
+                  background: i === 2
+                    ? 'linear-gradient(180deg, rgba(18,52,22,0.95) 0%, rgba(8,28,10,0.98) 100%)'
+                    : 'linear-gradient(180deg, rgba(10,18,10,0.9) 0%, rgba(6,12,6,0.95) 100%)',
+                  border: `1px solid ${i === 2 ? 'rgba(76,175,80,0.55)' : 'rgba(255,255,255,0.07)'}`,
+                  borderRadius: 14,
+                  padding: '0 0 28px 0',
+                  display: 'flex', flexDirection: 'column',
+                  overflow: 'hidden',
+                  transition: 'border-color 0.3s, transform 0.3s',
+                  cursor: 'pointer',
+                }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(76,175,80,0.55)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = i === 2 ? 'rgba(76,175,80,0.55)' : 'rgba(255,255,255,0.07)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}>
+
+                  {/* Hexagon — right-aligned in top area */}
+                  <div style={{
+                    width: '100%',
+                    height: 210,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    padding: '24px 12px 0 28px',
+                    overflow: 'hidden',
+                  }}>
+                    <img
+                      src="/images/hexagon.svg"
+                      alt=""
+                      style={{
+                        width: 175,
+                        height: 175,
+                        objectFit: 'contain',
+                        flexShrink: 0,
+                      }}
+                    />
                   </div>
-                  <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 14, lineHeight: 1.3 }}>{s.title}</h3>
-                  <p style={{ color: '#888', fontSize: 14, lineHeight: 1.7, flex: 1, marginBottom: 28 }}>{s.description}</p>
-                  <button style={{ padding: '10px 20px', background: i === 1 ? '#4CAF50' : 'transparent', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 50, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, transition: 'all 0.2s', width: '100%', justifyContent: 'center' }}
-                    onMouseEnter={e => { if (i !== 1) (e.currentTarget as HTMLElement).style.borderColor = '#4CAF50'; }}
-                    onMouseLeave={e => { if (i !== 1) (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.25)'; }}>
-                    Learn More <ArrowUpRight size={14} />
-                  </button>
+
+                  {/* Card text + button */}
+                  <div style={{ padding: '16px 28px 0', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 12, lineHeight: 1.3, color: '#fff' }}>{s.title}</h3>
+                    <p style={{ color: '#999', fontSize: 14, lineHeight: 1.7, flex: 1, marginBottom: 20 }}>{s.description}</p>
+                    <button style={{
+                      padding: '13px 20px',
+                      background: i === 2 ? '#4CAF50' : 'transparent',
+                      border: `1px solid ${i === 2 ? '#4CAF50' : 'rgba(255,255,255,0.18)'}`,
+                      borderRadius: 8,
+                      color: '#fff',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      letterSpacing: '1.5px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      width: '100%',
+                      transition: 'all 0.2s',
+                    }}
+                      onMouseEnter={e => {
+                        if (i !== 2) {
+                          (e.currentTarget as HTMLElement).style.borderColor = '#4CAF50';
+                          (e.currentTarget as HTMLElement).style.color = '#4CAF50';
+                        }
+                      }}
+                      onMouseLeave={e => {
+                        if (i !== 2) {
+                          (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.18)';
+                          (e.currentTarget as HTMLElement).style.color = '#fff';
+                        }
+                      }}>
+                      LEARN MORE <ArrowUpRight size={13} />
+                    </button>
+                  </div>
                 </div>
               ))
             )}
@@ -221,28 +272,59 @@ export default function Home() {
 
       {/* ── SECTORS WE SERVE — bg: /images/beam.png ───────────────────── */}
       <section id="sectors" style={{ position: 'relative', padding: '100px 0 120px', borderTop: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden' }}>
-        {/* beam.png background */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/beam.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} />
-        {/* dark overlay so cards + text stay legible */}
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(5,10,5,0.80)' }} />
+        {/* beam.png background — road/runway perspective */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/beam.png)', backgroundSize: 'cover', backgroundPosition: 'center top', backgroundRepeat: 'no-repeat' }} />
+        {/* lighter overlay so road image is visible like in screenshot */}
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(3,8,3,0.62)' }} />
+        {/* fade to dark at top and bottom edges */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(5,10,5,0.55) 0%, transparent 25%, transparent 75%, rgba(5,10,5,0.55) 100%)' }} />
 
         <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '0 40px' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <h2 style={{ fontSize: 'clamp(28px,4vw,46px)', fontWeight: 800, letterSpacing: '-1px', marginBottom: 16, fontFamily: "'Eloran', sans-serif" }}>
+          <div style={{ textAlign: 'center', marginBottom: 80 }}>
+            <h2 style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-1px', marginBottom: 20, fontFamily: "'Eloran', sans-serif" }}>
               SECTORS <span style={{ color: '#4CAF50' }}>WE SERVE</span>
             </h2>
-            <p style={{ color: '#888', fontSize: 16, maxWidth: 540, margin: '0 auto' }}>
+            <p style={{ color: '#aaa', fontSize: 17, maxWidth: 580, margin: '0 auto', lineHeight: 1.7 }}>
               Our expertise spans across critical sectors, delivering tailored solutions that drive efficiency and sustainability.
             </p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
             {sectors.map((s, i) => (
-              <div key={s.num} style={{ background: i === 1 ? 'rgba(30,70,30,0.5)' : 'rgba(255,255,255,0.03)', border: `1px solid ${i === 1 ? 'rgba(76,175,80,0.5)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 12, padding: '28px 20px', transition: 'border-color 0.3s, background 0.3s', cursor: 'pointer' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(76,175,80,0.5)'; (e.currentTarget as HTMLElement).style.background = 'rgba(30,70,30,0.4)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = i === 1 ? 'rgba(76,175,80,0.5)' : 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLElement).style.background = i === 1 ? 'rgba(30,70,30,0.5)' : 'rgba(255,255,255,0.03)'; }}>
-                <div style={{ width: 36, height: 36, borderRadius: 8, border: '1px solid rgba(76,175,80,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#4CAF50', marginBottom: 20 }}>{s.num}</div>
-                <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, lineHeight: 1.3 }}>{s.title}</h3>
+              <div key={s.num} style={{
+                background: 'rgba(8,14,8,0.82)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 14,
+                padding: '28px 22px 28px',
+                transition: 'border-color 0.3s, background 0.3s, transform 0.3s',
+                cursor: 'pointer',
+              }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(76,175,80,0.5)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(15,35,15,0.92)';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(8,14,8,0.82)';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                }}>
+                {/* Number badge */}
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(76,175,80,0.12)',
+                  border: '1px solid rgba(76,175,80,0.35)',
+                  borderRadius: 8,
+                  padding: '6px 12px',
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: '#4CAF50',
+                  marginBottom: 24,
+                  letterSpacing: '0.5px',
+                }}>{s.num}</div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, lineHeight: 1.3, color: '#fff' }}>{s.title}</h3>
                 <p style={{ color: '#888', fontSize: 13, lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
