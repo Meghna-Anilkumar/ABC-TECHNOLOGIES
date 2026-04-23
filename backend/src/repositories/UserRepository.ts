@@ -15,3 +15,5 @@ export class UserRepository extends BaseRepository<IUser> implements IUserReposi
     return User.findOne({ role: 'admin' });
   }
 }
+
+export default new UserRepository();
